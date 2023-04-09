@@ -29,14 +29,17 @@ public class AddOrderServlet extends HttpServlet {
             tische.add(tisch);
         }
 
-        String produktName = request.getParameter("produktName");
-        int menge = Integer.parseInt(request.getParameter("menge"));
-        double preis = Double.parseDouble(request.getParameter("preis"));
+//        String produktName = request.getParameter("produktName");
+//        int menge = Integer.parseInt(request.getParameter("menge"));
+//        double preis = Double.parseDouble(request.getParameter("preis"));
+//
+//        Produkt produkt = new Produkt(produktName, preis);
+//        tisch.getRechnung().addProdukt(produkt, menge);
 
-        Produkt produkt = new Produkt(produktName, preis);
-        tisch.getRechnung().addProdukt(produkt, menge);
-
+        session.setAttribute("tischId", tischId);
         session.setAttribute("tische", tische);
-        response.sendRedirect("bestellung.jsp");
+//        response.sendRedirect("bestellung.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("bestellung.jsp");
+        dispatcher.forward(request, response);
     }
 }

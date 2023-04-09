@@ -27,6 +27,8 @@
         <option value="bar">Bar</option>
         <option value="karte">Karte</option>
     </select>
+    <label for="gezahlterBetrag">Gegebenes Geld:</label>
+    <input type="text" id="gezahlterBetrag" name="gezahlterBetrag">
     <input type="submit" value="Zahlung abschließen">
 </form>
 <p>
