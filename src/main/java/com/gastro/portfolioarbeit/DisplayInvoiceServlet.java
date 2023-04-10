@@ -19,11 +19,18 @@ public class DisplayInvoiceServlet extends HttpServlet {
         // Die Rechnung aus der Session holen
         Rechnung rechnung = (Rechnung) request.getSession().getAttribute("rechnung");
 
+        if (rechnung == null) {
+            response.setContentType("text/html");
+            response.getWriter().println("Rechnung nicht gefunden");
+            return;
+        }
+
         // Die Methode generateInvoiceTable aufrufen und das Ergebnis in die Antwort schreiben
         String invoiceTable = generateInvoiceTable(rechnung);
         response.setContentType("text/html");
         response.getWriter().println(invoiceTable);
     }
+
 
     public String generateInvoiceTable(Rechnung rechnung) {
         StringBuilder sb = new StringBuilder();

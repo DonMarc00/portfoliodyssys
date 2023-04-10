@@ -1,8 +1,5 @@
 package com.gastro.portfolioarbeit;
 
-import jakarta.servlet.http.HttpSession;
-
-import java.util.ArrayList;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
@@ -29,17 +26,26 @@ public class AddOrderServlet extends HttpServlet {
             tische.add(tisch);
         }
 
-//        String produktName = request.getParameter("produktName");
-//        int menge = Integer.parseInt(request.getParameter("menge"));
-//        double preis = Double.parseDouble(request.getParameter("preis"));
-//
-//        Produkt produkt = new Produkt(produktName, preis);
-//        tisch.getRechnung().addProdukt(produkt, menge);
+        String produktName = request.getParameter("produktName");
+        int menge = Integer.parseInt(request.getParameter("menge"));
 
-        session.setAttribute("tischId", tischId);
-        session.setAttribute("tische", tische);
-//        response.sendRedirect("bestellung.jsp");
-        RequestDispatcher dispatcher = request.getRequestDispatcher("bestellung.jsp");
-        dispatcher.forward(request, response);
+        System.out.println("Eingegebener Produktname: " + produktName);
+        System.out.println("Produkte im Produktverzeichnis: ");
+        ProduktVerzeichnis.getProdukte().forEach(p -> System.out.println(p.getName()));
+
+        Produkt produkt = ProduktVerzeichnis.getProduktByName(produktName);
+        if (produkt != null) {
+            tisch.getRechnung().addProdukt(produkt, menge);
+
+            session.setAttribute("tischId", tischId);
+            session.setAttribute("tische", tische);
+            RequestDispatcher dispatcher = request.getRequestDispatcher("bestellung.jsp");
+            dispatcher.forward(request, response);
+        } else {
+            request.setAttribute("errorMessage", "Das eingegebene Produkt wurde nicht gefunden. Bitte überprüfen Sie den Produktnamen und versuchen Sie es erneut.");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("bestellung.jsp");
+            dispatcher.forward(request, response);
+        }
     }
 }
+

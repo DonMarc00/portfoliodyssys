@@ -7,7 +7,7 @@
 <body>
 <h1>Willkommen beim Gastronomie-System</h1>
 <p>Wählen Sie einen Tisch:</p>
-<form action="AddOrderServlet" method="post">
+<form action="SelectTableServlet" method="post">
     <label for="tischId">Tisch ID:</label>
     <input type="number" id="tischId" name="tischId"><br>
     
