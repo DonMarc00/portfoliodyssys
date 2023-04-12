@@ -7,6 +7,7 @@ import java.util.Map;
 public class Rechnung {
     private Map<Produkt, Integer> bestellteProdukte;
     private double rabatt;
+    private double rueckgeld;
 
     public Rechnung() {
         this.bestellteProdukte = new HashMap<>();
@@ -31,6 +32,10 @@ public class Rechnung {
             total += entry.getKey().getPreis() * entry.getValue();
         }
         return total * (1 - rabatt);
+    }
+
+    public double getRueckgeld(){
+        return rueckgeld;
     }
 
     public ArrayList<Map.Entry<Produkt, Integer>> getBestellteProdukte() {

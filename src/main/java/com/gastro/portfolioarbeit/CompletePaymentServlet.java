@@ -18,7 +18,7 @@ public class CompletePaymentServlet extends HttpServlet {
         String tischId = request.getParameter("tischId");
 
         Tisch tisch = tische.stream().filter(t -> t.getTischId().equals(tischId)).findFirst().orElse(null);
-
+        Rechnung rechnung = tisch.getRechnung();
         if (tisch != null) {
             double gezahlterBetrag = Double.parseDouble(request.getParameter("gezahlterBetrag"));
             String zahlungsart = request.getParameter("zahlungsart");
@@ -31,6 +31,7 @@ public class CompletePaymentServlet extends HttpServlet {
             tische.remove(tisch);
             session.setAttribute("tische", tische);
         }
+        request.getSession().setAttribute("rechnung", rechnung);
 
 //        RequestDispatcher requestDispatcher = request.getRequestDispatcher("rechnung.jsp");
 //        requestDispatcher.forward(request, response);

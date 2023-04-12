@@ -12,19 +12,19 @@ public class AddOrderServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
 
-        if (session.getAttribute("tische") == null) {
+        /*if (session.getAttribute("tische") == null) {
             session.setAttribute("tische", new ArrayList<Tisch>());
-        }
+        } */
 
         ArrayList<Tisch> tische = (ArrayList<Tisch>) session.getAttribute("tische");
 
         String tischId = request.getParameter("tischId");
         Tisch tisch = tische.stream().filter(t -> t.getTischId().equals(tischId)).findFirst().orElse(null);
 
-        if (tisch == null) {
+        /*if (tisch == null) {
             tisch = new Tisch(tischId);
             tische.add(tisch);
-        }
+        } */
 
         String produktName = request.getParameter("produktName");
         int menge = Integer.parseInt(request.getParameter("menge"));

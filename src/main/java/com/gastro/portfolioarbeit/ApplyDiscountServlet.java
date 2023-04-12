@@ -32,11 +32,13 @@ public class ApplyDiscountServlet extends HttpServlet {
                 case "Rabatt3":
                     rabatt = 0.3;
                     break;
+                default:
+                    break;
             }
 
             rechnung.setRabatt(rabatt);
         }
-        request.getSession().setAttribute("rechnung", rechnung);
+//        request.getSession().setAttribute("rechnung", rechnung);
 
 //        response.sendRedirect("rechnung.jsp?tischId=" + tischId);
         RequestDispatcher dispatcher = request.getRequestDispatcher("rechnung.jsp");
