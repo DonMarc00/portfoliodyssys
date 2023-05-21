@@ -12,40 +12,38 @@ public class AddOrderServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
 
-        if (session.getAttribute("tische") == null) {
-            session.setAttribute("tische", new ArrayList<Tisch>());
-        }
+        String tischId = (String)session.getAttribute("tischId");
+        Tisch tisch = new Tisch(tischId);
+        Tische.setTisch(Integer.parseInt(((String)session.getAttribute("tischId"))), tisch);
 
-        ArrayList<Tisch> tische = (ArrayList<Tisch>) session.getAttribute("tische");
+        Rechnung rechnung = tisch.getRechnung();
+        rechnung.addProdukt(ProduktVerzeichnis.getProduktByName("Cappucino"),Integer.parseInt( request.getParameter("Cappuccino")));
+        rechnung.addProdukt(ProduktVerzeichnis.getProduktByName("Espresso"),Integer.parseInt( request.getParameter("Espresso")));
+        rechnung.addProdukt(ProduktVerzeichnis.getProduktByName("PizzaMargherita"),Integer.parseInt( request.getParameter("PizzaMargherita")));
+        rechnung.addProdukt(ProduktVerzeichnis.getProduktByName("Salat"),Integer.parseInt( request.getParameter("Salat")));
+        rechnung.addProdukt(ProduktVerzeichnis.getProduktByName("PastaBolognese"),Integer.parseInt( request.getParameter("PastaBolognese")));
 
-        String tischId = request.getParameter("tischId");
-        Tisch tisch = tische.stream().filter(t -> t.getTischId().equals(tischId)).findFirst().orElse(null);
 
-        if (tisch == null) {
-            tisch = new Tisch(tischId);
-            tische.add(tisch);
-        }
 
-        String produktName = request.getParameter("produktName");
-        int menge = Integer.parseInt(request.getParameter("menge"));
 
-        System.out.println("Eingegebener Produktname: " + produktName);
+
+
         System.out.println("Produkte im Produktverzeichnis: ");
         ProduktVerzeichnis.getProdukte().forEach(p -> System.out.println(p.getName()));
 
-        Produkt produkt = ProduktVerzeichnis.getProduktByName(produktName);
-        if (produkt != null) {
-            tisch.getRechnung().addProdukt(produkt, menge);
+
+        //Produkt produkt = ProduktVerzeichnis.getProduktByName(produktName);
+
+            //tisch.getRechnung().addProdukt(produkt, menge);
 
             session.setAttribute("tischId", tischId);
-            session.setAttribute("tische", tische);
             RequestDispatcher dispatcher = request.getRequestDispatcher("bestellung.jsp");
             dispatcher.forward(request, response);
-        } else {
+        /* else {
             request.setAttribute("errorMessage", "Das eingegebene Produkt wurde nicht gefunden. Bitte überprüfen Sie den Produktnamen und versuchen Sie es erneut.");
             RequestDispatcher dispatcher = request.getRequestDispatcher("bestellung.jsp");
             dispatcher.forward(request, response);
-        }
+        } */
     }
 }
 

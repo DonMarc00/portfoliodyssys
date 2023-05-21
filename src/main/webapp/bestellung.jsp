@@ -14,7 +14,46 @@
 <body>
 <h1>Bestellungen für Tisch <%= request.getParameter("tischId") %></h1>
 <form action="AddOrderServlet" method="post">
-  <label for="produktName">Produktname:</label>
+
+  <table>
+    <thead>
+    <tr>
+      <th>Anzahl</th>
+      <th>Speise und Getränke</th>
+      <th>Preis</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td><input type="number" min="0" name="Cappuccino" /></td>
+      <td>Cappuccino</td>
+      <td>3.50€</td>
+    </tr>
+    <tr>
+      <td><input type="number" min="0" name="Espresso" /></td>
+      <td>Espresso</td>
+      <td>2.00€</td>
+    </tr>
+    <tr>
+      <td><input type="number" min="0" name="PizzaMargherita" /></td>
+      <td>Pizza Margherita</td>
+      <td>7.50€</td>
+    </tr>
+    <tr>
+      <td><input type="number" min="0" name="Salat" /></td>
+      <td>Salat</td>
+      <td>5.00€</td>
+    </tr>
+    <tr>
+      <td><input type="number" min="0" name="PastaBolognese" /></td>
+      <td>Pasta Bolognese</td>
+      <td>4.00€</td>
+    </tr>
+    </tbody>
+  </table>
+  <input type="hidden" name="tischId" value="${tischId}">
+  <button type="submit">Bestellung hinzufügen</button>
+  <!--<label for="produktName">Produktname:</label>
   <select id="produktName" name="produktName" required>
     <option value="Cappuccino">Cappuccino</option>
     <option value="Espresso">Espresso</option>
@@ -25,7 +64,7 @@
   <label for="menge">Menge:</label>
   <input type="number" id="menge" name="menge" min="1" required>
   <input type="hidden" name="tischId" value="${tischId}">
-  <input type="submit" value="Bestellung hinzufügen">
+  <input type="submit" value="Bestellung hinzufügen">--!>
 </form>
 
 <p>

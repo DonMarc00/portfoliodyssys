@@ -14,8 +14,8 @@ public class ApplyDiscountServlet extends HttpServlet {
         ArrayList<Tisch> tische = (ArrayList<Tisch>) session.getAttribute("tische");
         String tischId = request.getParameter("tischId");
 
-        Tisch tisch = tische.stream().filter(t -> t.getTischId().equals(tischId)).findFirst().orElse(null);
-
+        //Tisch tisch = tische.stream().filter(t -> t.getTischId().equals(tischId)).findFirst().orElse(null);
+        Tisch tisch = Tische.getTisch(Integer.parseInt(tischId));
         Rechnung rechnung = tisch.getRechnung();
 
         if (tisch != null) {

@@ -11,9 +11,9 @@ public class ProduktVerzeichnis {
         produkte = new ArrayList<>();
         produkte.add(new Produkt("Cappuccino", 3.50));
         produkte.add(new Produkt("Espresso", 2.00));
-        produkte.add(new Produkt("Pizza Margherita", 7.50));
+        produkte.add(new Produkt("PizzaMargherita", 7.50));
         produkte.add(new Produkt("Salat", 5.00));
-        produkte.add(new Produkt("Pasta Bolognese", 4.00));
+        produkte.add(new Produkt("PastaBolognese", 4.00));
 
         System.out.println("Produktverzeichnis initialisiert:");
         produkte.forEach(p -> System.out.println(p.getName() + " - " + p.getPreis()));
