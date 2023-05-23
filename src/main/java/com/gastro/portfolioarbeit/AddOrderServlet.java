@@ -13,19 +13,37 @@ public class AddOrderServlet extends HttpServlet {
         HttpSession session = request.getSession();
 
         String tischId = (String)session.getAttribute("tischId");
-        Tisch tisch = new Tisch(tischId);
-        Tische.setTisch(Integer.parseInt(((String)session.getAttribute("tischId"))), tisch);
+        if(!Tische.exists(Integer.parseInt(tischId))) {
+            Tisch tisch = new Tisch(tischId);
+            Tische.setTisch(Integer.parseInt(((String) session.getAttribute("tischId"))), tisch);
+        }
+        Tisch tisch = Tische.getTisch(Integer.parseInt(tischId));
+
+
 
         Rechnung rechnung = tisch.getRechnung();
-        rechnung.addProdukt(ProduktVerzeichnis.getProduktByName("Cappucino"),Integer.parseInt( request.getParameter("Cappuccino")));
-        rechnung.addProdukt(ProduktVerzeichnis.getProduktByName("Espresso"),Integer.parseInt( request.getParameter("Espresso")));
-        rechnung.addProdukt(ProduktVerzeichnis.getProduktByName("PizzaMargherita"),Integer.parseInt( request.getParameter("PizzaMargherita")));
-        rechnung.addProdukt(ProduktVerzeichnis.getProduktByName("Salat"),Integer.parseInt( request.getParameter("Salat")));
-        rechnung.addProdukt(ProduktVerzeichnis.getProduktByName("PastaBolognese"),Integer.parseInt( request.getParameter("PastaBolognese")));
-
-
-
-
+        try {
+            rechnung.addProdukt(ProduktVerzeichnis.getProduktByName("Cappuccino"), Integer.parseInt(request.getParameter("Cappuccino")));
+            for (Produkt produkt : ProduktVerzeichnis.getProdukte()) {
+                String produktname = produkt.getName();
+                rechnung.addProdukt(produkt, Integer.parseInt(request.getParameter(produktname)));
+            }/*
+            rechnung.addProdukt(ProduktVerzeichnis.getProduktByName("Espresso"), Integer.parseInt(request.getParameter("Espresso")));
+            rechnung.addProdukt(ProduktVerzeichnis.getProduktByName("PizzaMargherita"), Integer.parseInt(request.getParameter("PizzaMargherita")));
+            rechnung.addProdukt(ProduktVerzeichnis.getProduktByName("Salat"), Integer.parseInt(request.getParameter("Salat")));
+            rechnung.addProdukt(ProduktVerzeichnis.getProduktByName("PastaBolognese"), Integer.parseInt(request.getParameter("PastaBolognese")));
+            rechnung.addProdukt(ProduktVerzeichnis.getProduktByName("PizzaHawaii"), Integer.parseInt(request.getParameter("PizzaHawaii")));
+            rechnung.addProdukt(ProduktVerzeichnis.getProduktByName("PastaCarbonara"), Integer.parseInt(request.getParameter("PastaCarbonara")));
+            rechnung.addProdukt(ProduktVerzeichnis.getProduktByName("LatteMacchiato"), Integer.parseInt(request.getParameter("LatteMacchiato")));
+            rechnung.addProdukt(ProduktVerzeichnis.getProduktByName("Salat"), Integer.parseInt(request.getParameter("SchwarzerTee")));
+            rechnung.addProdukt(ProduktVerzeichnis.getProduktByName("SchwarzerTee"), Integer.parseInt(request.getParameter("Wasser")));*/
+        } catch (NumberFormatException e){
+            String msg = "Es dürfen keine leeren Felder übergeben werden";
+            System.out.println(msg);
+            request.setAttribute("errorMessage", msg);
+            RequestDispatcher dispatcher = request.getRequestDispatcher("bestellung.jsp");
+            dispatcher.forward(request,response);
+        }
 
 
         System.out.println("Produkte im Produktverzeichnis: ");

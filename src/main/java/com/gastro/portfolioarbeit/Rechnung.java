@@ -7,10 +7,12 @@ import java.util.Map;
 public class Rechnung {
     private Map<Produkt, Integer> bestellteProdukte;
     private double rabatt;
+    private double barGeld;
 
     public Rechnung() {
         this.bestellteProdukte = new HashMap<>();
         this.rabatt = 0;
+        this.barGeld = -1;
     }
 
     public void addProdukt(Produkt produkt, int menge) {
@@ -35,6 +37,14 @@ public class Rechnung {
 
     public ArrayList<Map.Entry<Produkt, Integer>> getBestellteProdukte() {
         return new ArrayList<>(bestellteProdukte.entrySet());
+    }
+
+    public double getBarGeld() {
+        return barGeld;
+    }
+
+    public void setBarGeld(double barGeld){
+        this.barGeld = barGeld;
     }
 }
 

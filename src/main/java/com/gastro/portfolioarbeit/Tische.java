@@ -13,4 +13,9 @@ public  class Tische {
     public static Tisch getTisch(int tischId){
         return liste[tischId];
     }
+
+    public static boolean exists(int tischId){
+        if(liste[tischId] != null) return true;
+        return false;
+    }
 }

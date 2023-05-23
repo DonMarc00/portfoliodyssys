@@ -1,4 +1,6 @@
-<%--
+<%@ page import="com.gastro.portfolioarbeit.Tische" %>
+<%@ page import="com.gastro.portfolioarbeit.Tisch" %>
+<%@ page import="com.gastro.portfolioarbeit.Rechnung" %><%--
   Created by IntelliJ IDEA.
   User: Novak
   Date: 29.03.2023
@@ -13,6 +15,13 @@
 </head>
 <body>
 <h1>Rechnung für Tisch <%= request.getParameter("tischId") %></h1>
+<%  Tisch tisch = Tische.getTisch(Integer.parseInt(request.getParameter("tischId")));
+    Rechnung rechnung = tisch.getRechnung();
+    double zuZahlen = rechnung.getTotal() * rechnung.getRabatt();
+%>
+<p>
+    Zu zahlender Betrag: <%=zuZahlen%>
+</p>
 <!-- Hier würden Sie die Rechnungsdetails anzeigen, z. B. die Liste der bestellten Produkte -->
 <form action="ApplyDiscountServlet" method="post">
     <input type="hidden" name="tischId" value="<%= request.getParameter("tischId") %>">
@@ -27,7 +36,7 @@
         <option value="bar">Bar</option>
         <option value="karte">Karte</option>
     </select>
-    <label for="gezahlterBetrag">Gegebenes Geld:</label>
+    <label for="gezahlterBetrag">Gezahlter Betrag:</label>
     <input type="text" id="gezahlterBetrag" name="gezahlterBetrag">
     <input type="submit" value="Zahlung abschließen">
 </form>
