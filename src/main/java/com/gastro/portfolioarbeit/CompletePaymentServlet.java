@@ -15,21 +15,22 @@ public class CompletePaymentServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         //ArrayList<Tisch> tische = (ArrayList<Tisch>) session.getAttribute("tische");
-        String tischId = request.getParameter("tischId");
+        String tischId = (String)session.getAttribute("tischId"); //TODO: War ursprünglich request.get...
 
         //Tisch tisch = tische.stream().filter(t -> t.getTischId().equals(tischId)).findFirst().orElse(null);
         Tisch tisch = Tische.getTisch(Integer.parseInt(tischId));
         Rechnung rechnung = tisch.getRechnung();
 
         if (tisch != null) {
-            double gezahlterBetrag = Double.parseDouble(request.getParameter("gezahlterBetrag"));
             String zahlungsart = request.getParameter("zahlungsmethode");
 
             if ("bar".equalsIgnoreCase(zahlungsart)) {
+                double gezahlterBetrag = Double.parseDouble(request.getParameter("gezahlterBetrag"));
                 double rueckgeld = gezahlterBetrag - tisch.getRechnung().getTotal();
                 rechnung.setBarGeld(gezahlterBetrag);
                 request.setAttribute("rueckgeld", rueckgeld);
             }
+            rechnung.setZahlungsArt(zahlungsart);
 
             //tische.remove(tisch);
             //session.setAttribute("tische", tische);

@@ -8,6 +8,7 @@ public class Rechnung {
     private Map<Produkt, Integer> bestellteProdukte;
     private double rabatt;
     private double barGeld;
+    private String zahlungsArt;
 
     public Rechnung() {
         this.bestellteProdukte = new HashMap<>();
@@ -45,6 +46,14 @@ public class Rechnung {
 
     public void setBarGeld(double barGeld){
         this.barGeld = barGeld;
+    }
+
+    public String getZahlungsArt() {
+        return zahlungsArt;
+    }
+
+    public void setZahlungsArt(String zahlungsArt) {
+        this.zahlungsArt = zahlungsArt;
     }
 }
 

@@ -12,7 +12,7 @@
   <title>Bestellungen</title>
   <style>
     body {
-      font-family: 'Sans Serif';
+      font-family: 'Arial';
     }
 
     table {

@@ -45,6 +45,7 @@ public class DisplayInvoiceServlet extends HttpServlet {
         response.getWriter().println("</html>");
         response.getWriter().println("<a href=\"FreeTable\">Tisch freigeben</a>");
         response.getWriter().println("<p><a href=\"index.jsp\">Startseite</a></p>");
+        response.getWriter().println("<p><a href=\"rechnung.jsp\">Tellerwäschern eine zweite Chance geben</a></p>");
     }
 
 
@@ -76,7 +77,7 @@ public class DisplayInvoiceServlet extends HttpServlet {
         sb.append("<tr><td colspan='3'>Summe: </td><td>").append(String.format("%.2f", total)).append("</td></tr>");
         if(rechnung.getBarGeld() != -1 && rueckgeld >= 0) {
             sb.append("<tr><td colspan='3'>Rückgeld: </td><td>").append(String.format("%.2f", rueckgeld)).append("</td></tr>");
-        } else if (rueckgeld < 0) {
+        } else if (rueckgeld < 0 && "bar".equalsIgnoreCase(rechnung.getZahlungsArt())) {
             sb.append("<tr><td colspan='3'>Zu wenig Bargeld. Tellerwaschen angesagt! </td><td></td></tr>");
         }
         sb.append("</table>");
