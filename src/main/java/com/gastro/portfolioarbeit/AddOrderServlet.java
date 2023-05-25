@@ -15,9 +15,9 @@ public class AddOrderServlet extends HttpServlet {
         String tischId = (String)session.getAttribute("tischId");
         if(!Tische.exists(Integer.parseInt(tischId))) {
             Tisch tisch = new Tisch(tischId);
-            Tische.setTisch(Integer.parseInt(((String) session.getAttribute("tischId"))), tisch);
+            Tische.setTisch((String) session.getAttribute("tischId"), tisch);
         }
-        Tisch tisch = Tische.getTisch(Integer.parseInt(tischId));
+        Tisch tisch = Tische.getTisch(tischId);
 
 
 

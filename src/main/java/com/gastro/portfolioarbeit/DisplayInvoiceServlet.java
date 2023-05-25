@@ -21,7 +21,7 @@ public class DisplayInvoiceServlet extends HttpServlet {
         // Die Rechnung aus der Session holen
         //Rechnung rechnung = (Rechnung) request.getSession().getAttribute("rechnung");
         HttpSession session = request.getSession();
-        Rechnung rechnung = Tische.getTisch(Integer.parseInt((String)session.getAttribute("tischId"))).getRechnung();
+        Rechnung rechnung = Tische.getTisch((String)session.getAttribute("tischId")).getRechnung();
 
 
         if (rechnung == null) {

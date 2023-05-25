@@ -130,7 +130,7 @@
 </form>
 
 <p>
-  <a class="button-link" href="rechnung.jsp?tischId=<%= request.getParameter("tischId") %>">Rechnung anfordern</a> <br>
+  <a class="button-link" href="rechnung.jsp?tischId=<%= session.getAttribute("tischId") %>">Rechnung anfordern</a> <br>
 </p>
 <p>
   <a class="button-link" href="index.jsp">Zurück zur Startseite</a><br>

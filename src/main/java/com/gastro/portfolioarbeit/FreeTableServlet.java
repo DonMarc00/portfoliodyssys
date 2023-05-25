@@ -21,7 +21,7 @@ public class FreeTableServlet extends HttpServlet {
         HttpSession session = request.getSession();
 
         // Gibt den Tisch frei
-        Tische.setTisch(Integer.parseInt((String)session.getAttribute("tischId")), null);
+        Tische.setTisch((String)session.getAttribute("tischId"), null);
         response.sendRedirect("index.jsp");
 
 

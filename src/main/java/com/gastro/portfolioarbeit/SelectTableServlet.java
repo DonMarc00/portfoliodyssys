@@ -18,7 +18,7 @@ public class SelectTableServlet extends HttpServlet {
 
         ArrayList<Tisch> tische = (ArrayList<Tisch>) session.getAttribute("tische");
 
-        String tischId = request.getParameter("tischId");
+        String tischId = request.getParameter("tischId")+request.getParameter("einzelrechnung");
         Tisch tisch = tische.stream().filter(t -> t.getTischId().equals(tischId)).findFirst().orElse(null);
 
         if (tisch == null) {

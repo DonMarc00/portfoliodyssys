@@ -64,7 +64,7 @@
         <%
             double total = 0.0;
             try{
-            total = Tische.getTisch(Integer.parseInt((String)session.getAttribute("tischId"))).getRechnung().getTotal();
+            total = Tische.getTisch((String)session.getAttribute("tischId")).getRechnung().getTotal();
         } catch(NullPointerException e){
             request.getSession().setAttribute("errorMessage", "Sie müssen mindestens eine Bestellung hinzufügen. Auch wenn diese keine Produkte haben soll");
             response.sendRedirect("bestellung.jsp");
