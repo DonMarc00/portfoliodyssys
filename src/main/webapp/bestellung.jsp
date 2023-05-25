@@ -35,10 +35,27 @@
     tr:nth-child(even) {
       background-color: #f2f2f2;
     }
+
+
+    input[type="submit"], .button-link {
+      margin-top: 20px;
+      padding: 10px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      text-align: center;
+    }
+
+    input[type="submit"]:hover, .button-link:hover {
+      background-color: #45a049;
+    }
   </style>
 </head>
 <body>
-<h1>Bestellungen für Tisch <%= request.getParameter("tischId") %></h1>
+<h1>Bestellungen für Tisch <%= session.getAttribute("tischId") %></h1>
 <form action="AddOrderServlet" method="post">
 
   <h3>Speisen:</h3>
@@ -110,27 +127,15 @@
   </table>
   <input type="hidden" name="tischId" value="${tischId}">
   <button type="submit">Bestellung hinzufügen</button>
-  <!--<label for="produktName">Produktname:</label>
-  <select id="produktName" name="produktName" required>
-    <option value="Cappuccino">Cappuccino</option>
-    <option value="Espresso">Espresso</option>
-    <option value="Pizza Margherita">Pizza Margherita</option>
-    <option value="Salat">Salat</option>
-    <option value="Pasta Bolognese">Pasta Bolognese</option>
-  </select>
-  <label for="menge">Menge:</label>
-  <input type="number" id="menge" name="menge" min="1" required>
-  <input type="hidden" name="tischId" value="${tischId}">
-  <input type="submit" value="Bestellung hinzufügen">--!>
 </form>
 
 <p>
-  <a href="rechnung.jsp?tischId=<%= request.getParameter("tischId") %>">Rechnung anfordern</a> <br>
+  <a class="button-link" href="rechnung.jsp?tischId=<%= request.getParameter("tischId") %>">Rechnung anfordern</a> <br>
 </p>
 <p>
-  <a href="index.jsp">Zurück zur Startseite</a><br>
+  <a class="button-link" href="index.jsp">Zurück zur Startseite</a><br>
 </p>
 <!-- Fehlermeldung anzeigen -->
-<p style="color:red;"><%= request.getAttribute("errorMessage") %></p>
+<p style="color:red;"><%= request.getSession().getAttribute("errorMessage") %></p>
 </body>
 </html>

@@ -37,16 +37,19 @@
             margin: 10px 0;
         }
 
-        input[type="submit"] {
+        input[type="submit"], .button-link {
             margin-top: 20px;
             padding: 10px;
             background-color: #4CAF50;
             color: white;
             border: none;
             cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
         }
 
-        input[type="submit"]:hover {
+        input[type="submit"]:hover, .button-link:hover {
             background-color: #45a049;
         }
     </style>
@@ -58,7 +61,15 @@
 <form action="ApplyDiscountServlet" method="post">
     <!--Holt sich den zu zahlenden Betrag eines Tisches aus der Rechnung. Formatiert den zu zahlenden Betrag auf zwei Nachkommastellen-->
     <p>
-        Zu zahlender Betrag: <%= String.format("%.2f", Tische.getTisch(Integer.parseInt((String)session.getAttribute("tischId"))).getRechnung().getTotal()) %> €
+        <%
+            double total = 0.0;
+            try{
+            total = Tische.getTisch(Integer.parseInt((String)session.getAttribute("tischId"))).getRechnung().getTotal();
+        } catch(NullPointerException e){
+            request.getSession().setAttribute("errorMessage", "Sie müssen mindestens eine Bestellung hinzufügen. Auch wenn diese keine Produkte haben soll");
+            response.sendRedirect("bestellung.jsp");
+        }%>
+        Zu zahlender Betrag: <%= String.format("%.2f", total) %> €
     </p>
     <input type="hidden" name="tischId" value="<%= request.getParameter("tischId") %>">
     <label for="rabattCode">Rabattcode:</label>
@@ -76,7 +87,7 @@
     <input type="text" id="gezahlterBetrag" name="gezahlterBetrag">
     <input type="submit" value="Zahlung abschließen">
     <p>
-        <a href="index.jsp">Zurück zur Startseite</a>
+        <a class="button-link"  href="index.jsp">Zurück zur Startseite</a>
     </p>
 </form>
 
