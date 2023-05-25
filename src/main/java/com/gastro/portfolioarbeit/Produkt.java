@@ -1,6 +1,8 @@
 package com.gastro.portfolioarbeit;
 
-public class Produkt {
+import java.io.Serializable;
+
+public class Produkt implements Serializable {
     private String name;
     private double preis;
 

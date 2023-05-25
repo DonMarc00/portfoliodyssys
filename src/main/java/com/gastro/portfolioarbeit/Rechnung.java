@@ -1,10 +1,11 @@
 package com.gastro.portfolioarbeit;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Rechnung {
+public class Rechnung implements Serializable {
     private Map<Produkt, Integer> bestellteProdukte;
     private double rabatt;
     private double barGeld;

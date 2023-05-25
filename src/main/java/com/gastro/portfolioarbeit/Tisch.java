@@ -1,6 +1,8 @@
 package com.gastro.portfolioarbeit;
 
-public class Tisch {
+import java.io.Serializable;
+
+public class Tisch implements Serializable {
     private String tischId;
     private Rechnung rechnung;
 

@@ -9,7 +9,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpSession;
 
 import java.util.Map;
-import java.util.ArrayList;
+
 
 
 import java.io.IOException;
@@ -18,8 +18,6 @@ import java.io.IOException;
 public class DisplayInvoiceServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Die Rechnung aus der Session holen
-        //Rechnung rechnung = (Rechnung) request.getSession().getAttribute("rechnung");
         HttpSession session = request.getSession();
         Rechnung rechnung = Tische.getTisch((String)session.getAttribute("tischId")).getRechnung();
 
@@ -31,7 +29,7 @@ public class DisplayInvoiceServlet extends HttpServlet {
         }
 
         // Die Methode generateInvoiceTable aufrufen und das Ergebnis in die Antwort schreiben
-        String invoiceTable = generateInvoiceTable(rechnung);
+        String invoiceTable = generateInvoiceTable(rechnung, session);
         response.setContentType("text/html");
         response.getWriter().println("<!DOCTYPE html>");
         response.getWriter().println("<html>");
@@ -43,17 +41,17 @@ public class DisplayInvoiceServlet extends HttpServlet {
         response.getWriter().println(invoiceTable);
         response.getWriter().println("</body>");
         response.getWriter().println("</html>");
-        response.getWriter().println("<a href=\"FreeTable\">Tisch freigeben</a>");
-        response.getWriter().println("<p><a href=\"index.jsp\">Startseite</a></p>");
-        response.getWriter().println("<p><a href=\"rechnung.jsp\">Tellerwäschern eine zweite Chance geben</a></p>");
+        response.getWriter().println("<a class=\"button-link\" href=\"FreeTable\">Tisch freigeben</a>");
+        response.getWriter().println("<p><a class=\"button-link\" href=\"index.jsp\">Startseite</a></p>");
+        response.getWriter().println("<p><a class=\"button-link\" href=\"rechnung.jsp\">Tellerwäschern eine zweite Chance geben</a></p>");
     }
 
 
-    public String generateInvoiceTable(Rechnung rechnung) {
+    public String generateInvoiceTable(Rechnung rechnung, HttpSession session) {
         StringBuilder sb = new StringBuilder();
         double rueckgeld = rechnung.getBarGeld() - rechnung.getTotal();
         sb.append("<table border='1'>");
-        sb.append("<tr><th>Artikel</th><th>Menge</th><th>Preis eines Artikels</th><th>Preis eines Artikels * Menge</th></tr>");
+        sb.append("<tr><th>Artikel</th><th>Menge</th><th>Preis eines Artikels</th><th>Gesamtpreis in Euro</th></tr>");
 
         for (Map.Entry<Produkt, Integer> entry : rechnung.getBestellteProdukte()) {
             Produkt produkt = entry.getKey();
@@ -73,10 +71,16 @@ public class DisplayInvoiceServlet extends HttpServlet {
         double rabatt = rechnung.getRabatt() * 100;
         double total = rechnung.getTotal();
 
-        sb.append("<tr><td colspan='3'>Rabatt: </td><td>").append(String.format("%.2f%%", rabatt)).append("</td></tr>");
-        sb.append("<tr><td colspan='3'>Summe: </td><td>").append(String.format("%.2f", total)).append("</td></tr>");
+        //Erstellt eine Zeile für den Rabattcode mit dem Rabatt in % sowie dem verwendeten Code
+        sb.append("<tr><td colspan='3'>Rabatt: </td><td>").append(String.format("%.2f%%", rabatt));
+        if(session.getAttribute("rabattCode") != null){
+            sb.append(" Code: " + session.getAttribute("rabattCode"));
+        }
+        sb.append("</td></tr>");
+        sb.append("<tr><td colspan='3'>Summe: </td><td>").append(String.format("%.2f", total)).append("€</td></tr>");
+        //Wenn es Bargelb gibt und Rückgeld zu zahlen ist wird eine Zeile Rückgeld angelegt.
         if(rechnung.getBarGeld() != -1 && rueckgeld >= 0) {
-            sb.append("<tr><td colspan='3'>Rückgeld: </td><td>").append(String.format("%.2f", rueckgeld)).append("</td></tr>");
+            sb.append("<tr><td colspan='3'>Rückgeld: </td><td>").append(String.format("%.2f", rueckgeld)).append("€</td></tr>");
         } else if (rueckgeld < 0 && "bar".equalsIgnoreCase(rechnung.getZahlungsArt())) {
             sb.append("<tr><td colspan='3'>Zu wenig Bargeld. Tellerwaschen angesagt! </td><td></td></tr>");
         }
@@ -86,6 +90,7 @@ public class DisplayInvoiceServlet extends HttpServlet {
     }
 
     public String generateStyleTag() {
+        //Generiert das CSS-Style Tag
         StringBuilder styleTag = new StringBuilder();
         styleTag.append("<style>");
         styleTag.append("body { font-family: 'Sans Serif'; }");
@@ -93,6 +98,9 @@ public class DisplayInvoiceServlet extends HttpServlet {
         styleTag.append("th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }");
         styleTag.append("th { background-color: #4CAF50; color: white; }");
         styleTag.append("tr:nth-child(even) { background-color: #f2f2f2; }");
+        styleTag.append("body { font-family: 'Arial'; }");
+        styleTag.append("input[type='submit'], .button-link { margin-top: 20px; padding: 10px; background-color: #4CAF50; color: white; border: none; cursor: pointer; text-decoration: none; display: inline-block; text-align: center; }");
+        styleTag.append("input[type='submit']:hover, .button-link:hover { background-color: #45a049; }");
         styleTag.append("</style>");
         return styleTag.toString();
     }

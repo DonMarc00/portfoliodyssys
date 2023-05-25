@@ -57,10 +57,9 @@
 <body>
 <h1>Rechnung für Tisch <%= (String)session.getAttribute("tischId") %></h1>
 
-<!-- Hier würden Sie die Rechnungsdetails anzeigen, z. B. die Liste der bestellten Produkte -->
 <form action="ApplyDiscountServlet" method="post">
-    <!--Holt sich den zu zahlenden Betrag eines Tisches aus der Rechnung. Formatiert den zu zahlenden Betrag auf zwei Nachkommastellen-->
     <p>
+        <!--Holt sich den zu zahlenden Betrag eines Tisches aus der Rechnung. Formatiert den zu zahlenden Betrag auf zwei Nachkommastellen-->
         <%
             double total = 0.0;
             try{
@@ -84,11 +83,11 @@
         <option value="karte">Karte</option>
     </select>
     <label for="gezahlterBetrag">Gezahlter Betrag:</label>
-    <input type="text" id="gezahlterBetrag" name="gezahlterBetrag">
+    <input type="number" step=".01" id="gezahlterBetrag" name="gezahlterBetrag">
     <input type="submit" value="Zahlung abschließen">
-    <p>
-        <a class="button-link"  href="index.jsp">Zurück zur Startseite</a>
-    </p>
+    <p><a class="button-link"  href="index.jsp">Zurück zur Startseite</a></p>
+    <!-- Fehlermeldung anzeigen -->
+    <p style="color:red;"><%= request.getAttribute("errorMessage") %></p>
 </form>
 
 </body>

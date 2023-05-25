@@ -4,7 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProduktVerzeichnis {
-
+/* Diese Klasse enthält alle Produkte im System und ihre Preise.
+   Die Liste ist statisch.
+   Somit ist das Programm auf keine Objekte dieser Klasse angewiesen und kann immer auf das Verzeichnis zugreifen.
+ */
     private static List<Produkt> produkte;
 
     static {
@@ -22,10 +25,6 @@ public class ProduktVerzeichnis {
 
         System.out.println("Produktverzeichnis initialisiert:");
         produkte.forEach(p -> System.out.println(p.getName() + " - " + p.getPreis()));
-    }
-
-    public static Produkt getProduktByName(String name) {
-        return produkte.stream().filter(p -> p.getName().equalsIgnoreCase(name)).findFirst().orElse(null);
     }
 
     public static List<Produkt> getProdukte() {
